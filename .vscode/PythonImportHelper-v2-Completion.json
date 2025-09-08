@@ -8,6 +8,54 @@
         "documentation": {}
     },
     {
+        "label": "PyPDFLoader",
+        "importPath": "langchain_community.document_loaders",
+        "description": "langchain_community.document_loaders",
+        "isExtraImport": true,
+        "detail": "langchain_community.document_loaders",
+        "documentation": {}
+    },
+    {
+        "label": "PyPDFLoader",
+        "importPath": "langchain_community.document_loaders",
+        "description": "langchain_community.document_loaders",
+        "isExtraImport": true,
+        "detail": "langchain_community.document_loaders",
+        "documentation": {}
+    },
+    {
+        "label": "RecursiveCharacterTextSplitter",
+        "importPath": "langchain_text_splitters",
+        "description": "langchain_text_splitters",
+        "isExtraImport": true,
+        "detail": "langchain_text_splitters",
+        "documentation": {}
+    },
+    {
+        "label": "RecursiveCharacterTextSplitter",
+        "importPath": "langchain_text_splitters",
+        "description": "langchain_text_splitters",
+        "isExtraImport": true,
+        "detail": "langchain_text_splitters",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleGenerativeAIEmbeddings",
+        "importPath": "langchain_google_genai",
+        "description": "langchain_google_genai",
+        "isExtraImport": true,
+        "detail": "langchain_google_genai",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleGenerativeAIEmbeddings",
+        "importPath": "langchain_google_genai",
+        "description": "langchain_google_genai",
+        "isExtraImport": true,
+        "detail": "langchain_google_genai",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -25,6 +73,22 @@
         "documentation": {}
     },
     {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "Document",
+        "importPath": "langchain_core.documents",
+        "description": "langchain_core.documents",
+        "isExtraImport": true,
+        "detail": "langchain_core.documents",
+        "documentation": {}
+    },
+    {
         "label": "main",
         "kind": 2,
         "importPath": "src.chat",
@@ -34,20 +98,83 @@
         "documentation": {}
     },
     {
-        "label": "ingest_pdf",
+        "label": "main",
         "kind": 2,
-        "importPath": "src.ingest",
-        "description": "src.ingest",
-        "peekOfCode": "def ingest_pdf():\n    pass\nif __name__ == \"__main__\":\n    ingest_pdf()",
-        "detail": "src.ingest",
+        "importPath": "src.ingest-bk",
+        "description": "src.ingest-bk",
+        "peekOfCode": "def main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")\n    )\n    preview_text = chunks[0].page_content[:20]\n    vector = embedding.embed_query(chunks[0].page_content[:20])\n    print(\"Preview:\")\n    print(preview_text, \"...\")",
+        "detail": "src.ingest-bk",
         "documentation": {}
     },
     {
         "label": "PDF_PATH",
         "kind": 5,
+        "importPath": "src.ingest-bk",
+        "description": "src.ingest-bk",
+        "peekOfCode": "PDF_PATH = os.getenv(\"PDF_PATH\", \"\")\nloader = PyPDFLoader(PDF_PATH)\ndoc = loader.load()\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(",
+        "detail": "src.ingest-bk",
+        "documentation": {}
+    },
+    {
+        "label": "loader",
+        "kind": 5,
+        "importPath": "src.ingest-bk",
+        "description": "src.ingest-bk",
+        "peekOfCode": "loader = PyPDFLoader(PDF_PATH)\ndoc = loader.load()\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")",
+        "detail": "src.ingest-bk",
+        "documentation": {}
+    },
+    {
+        "label": "doc",
+        "kind": 5,
+        "importPath": "src.ingest-bk",
+        "description": "src.ingest-bk",
+        "peekOfCode": "doc = loader.load()\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")\n    )",
+        "detail": "src.ingest-bk",
+        "documentation": {}
+    },
+    {
+        "label": "splitter",
+        "kind": 5,
+        "importPath": "src.ingest-bk",
+        "description": "src.ingest-bk",
+        "peekOfCode": "splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")\n    )\n    preview_text = chunks[0].page_content[:20]",
+        "detail": "src.ingest-bk",
+        "documentation": {}
+    },
+    {
+        "label": "file_path",
+        "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "PDF_PATH = os.getenv(\"PDF_PATH\")\ndef ingest_pdf():\n    pass\nif __name__ == \"__main__\":\n    ingest_pdf()",
+        "peekOfCode": "def file_path() -> str:\n    return os.getenv(\"PDF_PATH\", \"\")\ndef splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "splitter",
+        "kind": 2,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "def splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)\n    chunk = chunks[0]\n    enrich_document = [",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "embedding",
+        "kind": 2,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "def embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)\n    chunk = chunks[0]\n    enrich_document = [\n        Document(\n            # v for v in chunks if v not in (\"\", None)",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "def main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)\n    chunk = chunks[0]\n    enrich_document = [\n        Document(\n            # v for v in chunks if v not in (\"\", None)\n            page_content=document.page_content,\n            metadata={",
         "detail": "src.ingest",
         "documentation": {}
     },
