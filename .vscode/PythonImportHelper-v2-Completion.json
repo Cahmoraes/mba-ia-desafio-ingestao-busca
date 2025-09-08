@@ -1,0 +1,72 @@
+[
+    {
+        "label": "search_prompt",
+        "importPath": "search",
+        "description": "search",
+        "isExtraImport": true,
+        "detail": "search",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "src.chat",
+        "description": "src.chat",
+        "peekOfCode": "def main():\n    chain = search_prompt()\n    if not chain:\n        print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")\n        return\n    pass\nif __name__ == \"__main__\":\n    main()",
+        "detail": "src.chat",
+        "documentation": {}
+    },
+    {
+        "label": "ingest_pdf",
+        "kind": 2,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "def ingest_pdf():\n    pass\nif __name__ == \"__main__\":\n    ingest_pdf()",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "PDF_PATH",
+        "kind": 5,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "PDF_PATH = os.getenv(\"PDF_PATH\")\ndef ingest_pdf():\n    pass\nif __name__ == \"__main__\":\n    ingest_pdf()",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "search_prompt",
+        "kind": 2,
+        "importPath": "src.search",
+        "description": "src.search",
+        "peekOfCode": "def search_prompt(question=None):\n    pass",
+        "detail": "src.search",
+        "documentation": {}
+    },
+    {
+        "label": "PROMPT_TEMPLATE",
+        "kind": 5,
+        "importPath": "src.search",
+        "description": "src.search",
+        "peekOfCode": "PROMPT_TEMPLATE = \"\"\"\nCONTEXTO:\n{contexto}\nREGRAS:\n- Responda somente com base no CONTEXTO.\n- Se a informação não estiver explicitamente no CONTEXTO, responda:\n  \"Não tenho informações necessárias para responder sua pergunta.\"\n- Nunca invente ou use conhecimento externo.\n- Nunca produza opiniões ou interpretações além do que está escrito.\nEXEMPLOS DE PERGUNTAS FORA DO CONTEXTO:",
+        "detail": "src.search",
+        "documentation": {}
+    }
+]
