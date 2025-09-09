@@ -89,6 +89,14 @@
         "documentation": {}
     },
     {
+        "label": "PGVector",
+        "importPath": "langchain_postgres",
+        "description": "langchain_postgres",
+        "isExtraImport": true,
+        "detail": "langchain_postgres",
+        "documentation": {}
+    },
+    {
         "label": "main",
         "kind": 2,
         "importPath": "src.chat",
@@ -147,7 +155,7 @@
         "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "def file_path() -> str:\n    return os.getenv(\"PDF_PATH\", \"\")\ndef splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)",
+        "peekOfCode": "def file_path() -> str:\n    return os.getenv(\"PDF_PATH\", \"\")\ndef splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")",
         "detail": "src.ingest",
         "documentation": {}
     },
@@ -156,7 +164,7 @@
         "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "def splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)\n    chunk = chunks[0]\n    enrich_document = [",
+        "peekOfCode": "def splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef create_store() -> PGVector:\n    return PGVector(",
         "detail": "src.ingest",
         "documentation": {}
     },
@@ -165,7 +173,34 @@
         "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "def embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)\n    chunk = chunks[0]\n    enrich_document = [\n        Document(\n            # v for v in chunks if v not in (\"\", None)",
+        "peekOfCode": "def embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef create_store() -> PGVector:\n    return PGVector(\n        embeddings=embedding(),\n        collection_name=collection_name(),",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "collection_name",
+        "kind": 2,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "def collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef create_store() -> PGVector:\n    return PGVector(\n        embeddings=embedding(),\n        collection_name=collection_name(),\n        connection=connection_url(),\n        use_jsonb=True,",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "connection_url",
+        "kind": 2,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "def connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef create_store() -> PGVector:\n    return PGVector(\n        embeddings=embedding(),\n        collection_name=collection_name(),\n        connection=connection_url(),\n        use_jsonb=True,\n    )\ndef main():",
+        "detail": "src.ingest",
+        "documentation": {}
+    },
+    {
+        "label": "create_store",
+        "kind": 2,
+        "importPath": "src.ingest",
+        "description": "src.ingest",
+        "peekOfCode": "def create_store() -> PGVector:\n    return PGVector(\n        embeddings=embedding(),\n        collection_name=collection_name(),\n        connection=connection_url(),\n        use_jsonb=True,\n    )\ndef main():\n    # Carrega o PDF para ler seu conteúdo\n    pdfLoader = PyPDFLoader(file_path())",
         "detail": "src.ingest",
         "documentation": {}
     },
@@ -174,7 +209,7 @@
         "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "def main():\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    chunks = splitter().split_documents(documents)\n    chunk = chunks[0]\n    enrich_document = [\n        Document(\n            # v for v in chunks if v not in (\"\", None)\n            page_content=document.page_content,\n            metadata={",
+        "peekOfCode": "def main():\n    # Carrega o PDF para ler seu conteúdo\n    pdfLoader = PyPDFLoader(file_path())\n    documents = pdfLoader.load()\n    # Utiliza o recursive text splitter para quebrar o documento em chunks\n    chunks = splitter().split_documents(documents)\n    # Aplica uma limpeza de metadados vazios ou nulos\n    enrich_document = [\n        Document(\n            page_content=document.page_content,",
         "detail": "src.ingest",
         "documentation": {}
     },
