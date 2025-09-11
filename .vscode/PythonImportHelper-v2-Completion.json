@@ -1,61 +1,5 @@
 [
     {
-        "label": "search_prompt",
-        "importPath": "search",
-        "description": "search",
-        "isExtraImport": true,
-        "detail": "search",
-        "documentation": {}
-    },
-    {
-        "label": "PyPDFLoader",
-        "importPath": "langchain_community.document_loaders",
-        "description": "langchain_community.document_loaders",
-        "isExtraImport": true,
-        "detail": "langchain_community.document_loaders",
-        "documentation": {}
-    },
-    {
-        "label": "PyPDFLoader",
-        "importPath": "langchain_community.document_loaders",
-        "description": "langchain_community.document_loaders",
-        "isExtraImport": true,
-        "detail": "langchain_community.document_loaders",
-        "documentation": {}
-    },
-    {
-        "label": "RecursiveCharacterTextSplitter",
-        "importPath": "langchain_text_splitters",
-        "description": "langchain_text_splitters",
-        "isExtraImport": true,
-        "detail": "langchain_text_splitters",
-        "documentation": {}
-    },
-    {
-        "label": "RecursiveCharacterTextSplitter",
-        "importPath": "langchain_text_splitters",
-        "description": "langchain_text_splitters",
-        "isExtraImport": true,
-        "detail": "langchain_text_splitters",
-        "documentation": {}
-    },
-    {
-        "label": "GoogleGenerativeAIEmbeddings",
-        "importPath": "langchain_google_genai",
-        "description": "langchain_google_genai",
-        "isExtraImport": true,
-        "detail": "langchain_google_genai",
-        "documentation": {}
-    },
-    {
-        "label": "GoogleGenerativeAIEmbeddings",
-        "importPath": "langchain_google_genai",
-        "description": "langchain_google_genai",
-        "isExtraImport": true,
-        "detail": "langchain_google_genai",
-        "documentation": {}
-    },
-    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -65,6 +9,22 @@
         "documentation": {}
     },
     {
+        "label": "search_prompt",
+        "importPath": "search",
+        "description": "search",
+        "isExtraImport": true,
+        "detail": "search",
+        "documentation": {}
+    },
+    {
+        "label": "GoogleGenerativeAIEmbeddings",
+        "importPath": "langchain_google_genai",
+        "description": "langchain_google_genai",
+        "isExtraImport": true,
+        "detail": "langchain_google_genai",
+        "documentation": {}
+    },
+    {
         "label": "load_dotenv",
         "importPath": "dotenv",
         "description": "dotenv",
@@ -78,6 +38,46 @@
         "description": "dotenv",
         "isExtraImport": true,
         "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "ChatOllama",
+        "importPath": "langchain_ollama",
+        "description": "langchain_ollama",
+        "isExtraImport": true,
+        "detail": "langchain_ollama",
+        "documentation": {}
+    },
+    {
+        "label": "OllamaEmbeddings",
+        "importPath": "langchain_ollama",
+        "description": "langchain_ollama",
+        "isExtraImport": true,
+        "detail": "langchain_ollama",
+        "documentation": {}
+    },
+    {
+        "label": "OllamaEmbeddings",
+        "importPath": "langchain_ollama",
+        "description": "langchain_ollama",
+        "isExtraImport": true,
+        "detail": "langchain_ollama",
+        "documentation": {}
+    },
+    {
+        "label": "RecursiveCharacterTextSplitter",
+        "importPath": "langchain_text_splitters",
+        "description": "langchain_text_splitters",
+        "isExtraImport": true,
+        "detail": "langchain_text_splitters",
+        "documentation": {}
+    },
+    {
+        "label": "PyPDFLoader",
+        "importPath": "langchain_community.document_loaders",
+        "description": "langchain_community.document_loaders",
+        "isExtraImport": true,
+        "detail": "langchain_community.document_loaders",
         "documentation": {}
     },
     {
@@ -97,57 +97,21 @@
         "documentation": {}
     },
     {
-        "label": "main",
+        "label": "embedding_generator",
         "kind": 2,
         "importPath": "src.chat",
         "description": "src.chat",
-        "peekOfCode": "def main():\n    chain = search_prompt()\n    if not chain:\n        print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")\n        return\n    pass\nif __name__ == \"__main__\":\n    main()",
+        "peekOfCode": "def embedding_generator():\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    embedding = embedding_generator().embed_query(question)\n    print(embedding)\n    chain = search_prompt()\n    if not chain:\n        print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")",
         "detail": "src.chat",
         "documentation": {}
     },
     {
         "label": "main",
         "kind": 2,
-        "importPath": "src.ingest-bk",
-        "description": "src.ingest-bk",
-        "peekOfCode": "def main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")\n    )\n    preview_text = chunks[0].page_content[:20]\n    vector = embedding.embed_query(chunks[0].page_content[:20])\n    print(\"Preview:\")\n    print(preview_text, \"...\")",
-        "detail": "src.ingest-bk",
-        "documentation": {}
-    },
-    {
-        "label": "PDF_PATH",
-        "kind": 5,
-        "importPath": "src.ingest-bk",
-        "description": "src.ingest-bk",
-        "peekOfCode": "PDF_PATH = os.getenv(\"PDF_PATH\", \"\")\nloader = PyPDFLoader(PDF_PATH)\ndoc = loader.load()\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(",
-        "detail": "src.ingest-bk",
-        "documentation": {}
-    },
-    {
-        "label": "loader",
-        "kind": 5,
-        "importPath": "src.ingest-bk",
-        "description": "src.ingest-bk",
-        "peekOfCode": "loader = PyPDFLoader(PDF_PATH)\ndoc = loader.load()\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")",
-        "detail": "src.ingest-bk",
-        "documentation": {}
-    },
-    {
-        "label": "doc",
-        "kind": 5,
-        "importPath": "src.ingest-bk",
-        "description": "src.ingest-bk",
-        "peekOfCode": "doc = loader.load()\nsplitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")\n    )",
-        "detail": "src.ingest-bk",
-        "documentation": {}
-    },
-    {
-        "label": "splitter",
-        "kind": 5,
-        "importPath": "src.ingest-bk",
-        "description": "src.ingest-bk",
-        "peekOfCode": "splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\nif not splitter:\n    raise SystemExit(0)\ndef main():\n    chunks = splitter.split_documents(doc)\n    print(chunks[0])\n    embedding = GoogleGenerativeAIEmbeddings(\n        model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"models/embedding-001\")\n    )\n    preview_text = chunks[0].page_content[:20]",
-        "detail": "src.ingest-bk",
+        "importPath": "src.chat",
+        "description": "src.chat",
+        "peekOfCode": "def main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    embedding = embedding_generator().embed_query(question)\n    print(embedding)\n    chain = search_prompt()\n    if not chain:\n        print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")\n        return\n    pass",
+        "detail": "src.chat",
         "documentation": {}
     },
     {
@@ -155,7 +119,7 @@
         "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "def file_path() -> str:\n    return os.getenv(\"PDF_PATH\", \"\")\ndef splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")",
+        "peekOfCode": "def file_path() -> str:\n    return os.getenv(\"PDF_PATH\", \"\")\ndef splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> OllamaEmbeddings:\n    return OllamaEmbeddings(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"EMBEDDING_MODEL\", \"nomic-embed-text\"),\n    )\ndef collection_name() -> str:",
         "detail": "src.ingest",
         "documentation": {}
     },
@@ -164,7 +128,7 @@
         "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "def splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef create_store() -> PGVector:\n    return PGVector(",
+        "peekOfCode": "def splitter() -> RecursiveCharacterTextSplitter:\n    return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)\ndef embedding() -> OllamaEmbeddings:\n    return OllamaEmbeddings(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"EMBEDDING_MODEL\", \"nomic-embed-text\"),\n    )\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:",
         "detail": "src.ingest",
         "documentation": {}
     },
@@ -173,7 +137,7 @@
         "kind": 2,
         "importPath": "src.ingest",
         "description": "src.ingest",
-        "peekOfCode": "def embedding() -> GoogleGenerativeAIEmbeddings:\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef create_store() -> PGVector:\n    return PGVector(\n        embeddings=embedding(),\n        collection_name=collection_name(),",
+        "peekOfCode": "def embedding() -> OllamaEmbeddings:\n    return OllamaEmbeddings(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"EMBEDDING_MODEL\", \"nomic-embed-text\"),\n    )\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef create_store() -> PGVector:",
         "detail": "src.ingest",
         "documentation": {}
     },

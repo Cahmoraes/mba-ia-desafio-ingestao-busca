@@ -1,10 +1,10 @@
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 import os
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_core.documents import Document
 from langchain_postgres import PGVector
+from langchain_ollama import OllamaEmbeddings
 
 
 load_dotenv()
@@ -18,8 +18,11 @@ def splitter() -> RecursiveCharacterTextSplitter:
     return RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
 
 
-def embedding() -> GoogleGenerativeAIEmbeddings:
-    return GoogleGenerativeAIEmbeddings(model=os.getenv("GOOGLE_EMBEDDING_MODEL", ""))
+def embedding() -> OllamaEmbeddings:
+    return OllamaEmbeddings(
+        base_url=os.getenv("OLLAMA_BASE_URL", "http://127.0.0.1:11434"),
+        model=os.getenv("EMBEDDING_MODEL", "nomic-embed-text"),
+    )
 
 
 def collection_name() -> str:
