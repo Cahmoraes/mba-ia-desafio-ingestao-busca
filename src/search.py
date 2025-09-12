@@ -1,3 +1,6 @@
+from langchain.prompts import PromptTemplate
+
+
 PROMPT_TEMPLATE = """
 CONTEXTO:
 {contexto}
@@ -25,5 +28,14 @@ PERGUNTA DO USUÁRIO:
 RESPONDA A "PERGUNTA DO USUÁRIO"
 """
 
+
 def search_prompt(question=None):
-    pass
+    if not question:
+        return
+    context = "Capitais de países: Paris = França, Lisboa = Portugal, Brasília = Brasil"
+    message = PromptTemplate(
+        input_variables=["contexto", "pergunta"], template=PROMPT_TEMPLATE
+    )
+    text = message.format(contexto=context, pergunta=question)
+    print(text)
+    return text

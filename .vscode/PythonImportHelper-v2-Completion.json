@@ -17,14 +17,6 @@
         "documentation": {}
     },
     {
-        "label": "GoogleGenerativeAIEmbeddings",
-        "importPath": "langchain_google_genai",
-        "description": "langchain_google_genai",
-        "isExtraImport": true,
-        "detail": "langchain_google_genai",
-        "documentation": {}
-    },
-    {
         "label": "load_dotenv",
         "importPath": "dotenv",
         "description": "dotenv",
@@ -65,6 +57,22 @@
         "documentation": {}
     },
     {
+        "label": "InMemoryCache",
+        "importPath": "langchain_core.caches",
+        "description": "langchain_core.caches",
+        "isExtraImport": true,
+        "detail": "langchain_core.caches",
+        "documentation": {}
+    },
+    {
+        "label": "set_llm_cache",
+        "importPath": "langchain.globals",
+        "description": "langchain.globals",
+        "isExtraImport": true,
+        "detail": "langchain.globals",
+        "documentation": {}
+    },
+    {
         "label": "RecursiveCharacterTextSplitter",
         "importPath": "langchain_text_splitters",
         "description": "langchain_text_splitters",
@@ -97,11 +105,19 @@
         "documentation": {}
     },
     {
+        "label": "PromptTemplate",
+        "importPath": "langchain.prompts",
+        "description": "langchain.prompts",
+        "isExtraImport": true,
+        "detail": "langchain.prompts",
+        "documentation": {}
+    },
+    {
         "label": "embedding_generator",
         "kind": 2,
         "importPath": "src.chat",
         "description": "src.chat",
-        "peekOfCode": "def embedding_generator():\n    return GoogleGenerativeAIEmbeddings(model=os.getenv(\"GOOGLE_EMBEDDING_MODEL\", \"\"))\ndef main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    embedding = embedding_generator().embed_query(question)\n    print(embedding)\n    chain = search_prompt()\n    if not chain:\n        print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")",
+        "peekOfCode": "def embedding_generator():\n    return OllamaEmbeddings(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"EMBEDDING_MODEL\", \"nomic-embed-text\"),\n    )\ndef main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    # embedding = embedding_generator().embed_query(question)\n    # print(embedding)",
         "detail": "src.chat",
         "documentation": {}
     },
@@ -110,7 +126,7 @@
         "kind": 2,
         "importPath": "src.chat",
         "description": "src.chat",
-        "peekOfCode": "def main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    embedding = embedding_generator().embed_query(question)\n    print(embedding)\n    chain = search_prompt()\n    if not chain:\n        print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")\n        return\n    pass",
+        "peekOfCode": "def main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    # embedding = embedding_generator().embed_query(question)\n    # print(embedding)\n    # chain = search_prompt()\n    # if not chain:\n    #     print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")\n    #     return\n    model = ChatOllama(",
         "detail": "src.chat",
         "documentation": {}
     },
@@ -182,7 +198,7 @@
         "kind": 2,
         "importPath": "src.search",
         "description": "src.search",
-        "peekOfCode": "def search_prompt(question=None):\n    pass",
+        "peekOfCode": "def search_prompt(question=None):\n    if not question:\n        return\n    context = \"Capitais de países: Paris = França, Lisboa = Portugal, Brasília = Brasil\"\n    message = PromptTemplate(\n        input_variables=[\"contexto\", \"pergunta\"], template=PROMPT_TEMPLATE\n    )\n    text = message.format(contexto=context, pergunta=question)\n    print(text)\n    return text",
         "detail": "src.search",
         "documentation": {}
     },
