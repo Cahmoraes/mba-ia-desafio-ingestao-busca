@@ -3,7 +3,7 @@ from langchain.prompts import PromptTemplate
 
 PROMPT_TEMPLATE = """
 CONTEXTO:
-{contexto}
+{context}
 
 REGRAS:
 - Responda somente com base no CONTEXTO.
@@ -29,13 +29,13 @@ RESPONDA A "PERGUNTA DO USUÁRIO"
 """
 
 
-def search_prompt(question=None):
+def search_prompt(question) -> PromptTemplate | None:
     if not question:
         return
-    context = "Capitais de países: Paris = França, Lisboa = Portugal, Brasília = Brasil"
     message = PromptTemplate(
-        input_variables=["contexto", "pergunta"], template=PROMPT_TEMPLATE
+        input_variables=["context", "pergunta"], template=PROMPT_TEMPLATE
     )
-    text = message.format(contexto=context, pergunta=question)
-    print(text)
-    return text
+    # text = message.format(context=context, pergunta=question)
+    # print(text)
+    # return text
+    return message

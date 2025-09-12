@@ -17,6 +17,14 @@
         "documentation": {}
     },
     {
+        "label": "create_stuff_documents_chain",
+        "importPath": "langchain.chains.combine_documents",
+        "description": "langchain.chains.combine_documents",
+        "isExtraImport": true,
+        "detail": "langchain.chains.combine_documents",
+        "documentation": {}
+    },
+    {
         "label": "load_dotenv",
         "importPath": "dotenv",
         "description": "dotenv",
@@ -73,6 +81,22 @@
         "documentation": {}
     },
     {
+        "label": "PGVector",
+        "importPath": "langchain_postgres",
+        "description": "langchain_postgres",
+        "isExtraImport": true,
+        "detail": "langchain_postgres",
+        "documentation": {}
+    },
+    {
+        "label": "PGVector",
+        "importPath": "langchain_postgres",
+        "description": "langchain_postgres",
+        "isExtraImport": true,
+        "detail": "langchain_postgres",
+        "documentation": {}
+    },
+    {
         "label": "RecursiveCharacterTextSplitter",
         "importPath": "langchain_text_splitters",
         "description": "langchain_text_splitters",
@@ -97,14 +121,6 @@
         "documentation": {}
     },
     {
-        "label": "PGVector",
-        "importPath": "langchain_postgres",
-        "description": "langchain_postgres",
-        "isExtraImport": true,
-        "detail": "langchain_postgres",
-        "documentation": {}
-    },
-    {
         "label": "PromptTemplate",
         "importPath": "langchain.prompts",
         "description": "langchain.prompts",
@@ -117,7 +133,43 @@
         "kind": 2,
         "importPath": "src.chat",
         "description": "src.chat",
-        "peekOfCode": "def embedding_generator():\n    return OllamaEmbeddings(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"EMBEDDING_MODEL\", \"nomic-embed-text\"),\n    )\ndef main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    # embedding = embedding_generator().embed_query(question)\n    # print(embedding)",
+        "peekOfCode": "def embedding_generator() -> OllamaEmbeddings:\n    return OllamaEmbeddings(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"EMBEDDING_MODEL\", \"nomic-embed-text\"),\n    )\ndef model() -> ChatOllama:\n    return ChatOllama(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"OLLAMA_MODEL\", \"llama3.2:1b\"),\n    )",
+        "detail": "src.chat",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 2,
+        "importPath": "src.chat",
+        "description": "src.chat",
+        "peekOfCode": "def model() -> ChatOllama:\n    return ChatOllama(\n        base_url=os.getenv(\"OLLAMA_BASE_URL\", \"http://127.0.0.1:11434\"),\n        model=os.getenv(\"OLLAMA_MODEL\", \"llama3.2:1b\"),\n    )\ndef store() -> PGVector:\n    return PGVector(\n        embeddings=embedding_generator(),\n        collection_name=collection_name(),\n        connection=connection_url(),",
+        "detail": "src.chat",
+        "documentation": {}
+    },
+    {
+        "label": "store",
+        "kind": 2,
+        "importPath": "src.chat",
+        "description": "src.chat",
+        "peekOfCode": "def store() -> PGVector:\n    return PGVector(\n        embeddings=embedding_generator(),\n        collection_name=collection_name(),\n        connection=connection_url(),\n        use_jsonb=True,\n    )\ndef collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:",
+        "detail": "src.chat",
+        "documentation": {}
+    },
+    {
+        "label": "collection_name",
+        "kind": 2,
+        "importPath": "src.chat",
+        "description": "src.chat",
+        "peekOfCode": "def collection_name() -> str:\n    return os.getenv(\"PG_VECTOR_COLLECTION_NAME\", \"\")\ndef connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # Busca top-k documentos (pega só os Documents)\n    search_results = store().similarity_search_with_score(question, k=10)\n    documents = [d[0] for d in search_results]\n    # Cria o PromptTemplate esperado pela chain (context + pergunta)",
+        "detail": "src.chat",
+        "documentation": {}
+    },
+    {
+        "label": "connection_url",
+        "kind": 2,
+        "importPath": "src.chat",
+        "description": "src.chat",
+        "peekOfCode": "def connection_url() -> str:\n    return os.getenv(\"DATABASE_URL\", \"\")\ndef main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # Busca top-k documentos (pega só os Documents)\n    search_results = store().similarity_search_with_score(question, k=10)\n    documents = [d[0] for d in search_results]\n    # Cria o PromptTemplate esperado pela chain (context + pergunta)\n    chain = search_prompt(question)\n    if not chain:",
         "detail": "src.chat",
         "documentation": {}
     },
@@ -126,7 +178,7 @@
         "kind": 2,
         "importPath": "src.chat",
         "description": "src.chat",
-        "peekOfCode": "def main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # print(question)\n    # embedding = embedding_generator().embed_query(question)\n    # print(embedding)\n    # chain = search_prompt()\n    # if not chain:\n    #     print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")\n    #     return\n    model = ChatOllama(",
+        "peekOfCode": "def main():\n    question = input(\"Realize sua pergunta:\\n\")\n    # Busca top-k documentos (pega só os Documents)\n    search_results = store().similarity_search_with_score(question, k=10)\n    documents = [d[0] for d in search_results]\n    # Cria o PromptTemplate esperado pela chain (context + pergunta)\n    chain = search_prompt(question)\n    if not chain:\n        print(\"Não foi possível iniciar o chat. Verifique os erros de inicialização.\")\n        return",
         "detail": "src.chat",
         "documentation": {}
     },
@@ -198,7 +250,7 @@
         "kind": 2,
         "importPath": "src.search",
         "description": "src.search",
-        "peekOfCode": "def search_prompt(question=None):\n    if not question:\n        return\n    context = \"Capitais de países: Paris = França, Lisboa = Portugal, Brasília = Brasil\"\n    message = PromptTemplate(\n        input_variables=[\"contexto\", \"pergunta\"], template=PROMPT_TEMPLATE\n    )\n    text = message.format(contexto=context, pergunta=question)\n    print(text)\n    return text",
+        "peekOfCode": "def search_prompt(question) -> PromptTemplate | None:\n    if not question:\n        return\n    message = PromptTemplate(\n        input_variables=[\"context\", \"pergunta\"], template=PROMPT_TEMPLATE\n    )\n    # text = message.format(context=context, pergunta=question)\n    # print(text)\n    # return text\n    return message",
         "detail": "src.search",
         "documentation": {}
     },
@@ -207,7 +259,7 @@
         "kind": 5,
         "importPath": "src.search",
         "description": "src.search",
-        "peekOfCode": "PROMPT_TEMPLATE = \"\"\"\nCONTEXTO:\n{contexto}\nREGRAS:\n- Responda somente com base no CONTEXTO.\n- Se a informação não estiver explicitamente no CONTEXTO, responda:\n  \"Não tenho informações necessárias para responder sua pergunta.\"\n- Nunca invente ou use conhecimento externo.\n- Nunca produza opiniões ou interpretações além do que está escrito.\nEXEMPLOS DE PERGUNTAS FORA DO CONTEXTO:",
+        "peekOfCode": "PROMPT_TEMPLATE = \"\"\"\nCONTEXTO:\n{context}\nREGRAS:\n- Responda somente com base no CONTEXTO.\n- Se a informação não estiver explicitamente no CONTEXTO, responda:\n  \"Não tenho informações necessárias para responder sua pergunta.\"\n- Nunca invente ou use conhecimento externo.\n- Nunca produza opiniões ou interpretações além do que está escrito.\nEXEMPLOS DE PERGUNTAS FORA DO CONTEXTO:",
         "detail": "src.search",
         "documentation": {}
     }
