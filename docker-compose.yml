@@ -7,11 +7,11 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: rag
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d rag"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d rag']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,12 +22,44 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    entrypoint: ["/bin/sh", "-c"]
+    entrypoint: ['/bin/sh', '-c']
     command: >
       PGPASSWORD=postgres
       psql "postgresql://postgres@postgres:5432/rag" -v ON_ERROR_STOP=1
       -c "CREATE EXTENSION IF NOT EXISTS vector;"
-    restart: "no"
+    restart: 'no'
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - '11434:11434'
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama_models:/root/.ollama
+    entrypoint: ['sh', '-c', 'ollama serve']
+
+  ollama-init:
+    image: curlimages/curl:8.8.0
+    depends_on:
+      - ollama
+    entrypoint: ['sh', '-c']
+    command: |
+      "
+      until curl -sf http://ollama:11434/api/tags >/dev/null; do
+        echo 'Aguardando Ollama...'; sleep 2;
+      done
+      curl -s -X POST http://ollama:11434/api/pull -H 'content-type: application/json' \
+        -d '{\"name\":\"nomic-embed-text\"}'
+      curl -s -X POST http://ollama:11434/api/pull -H 'content-type: application/json' \
+        -d '{\"name\":\"llama3.2:1b\"}'
+      echo 'Modelos prontos.'
+      "
+    networks:
+      default: {}
 
 volumes:
   postgres_data:
+  ollama_models:
