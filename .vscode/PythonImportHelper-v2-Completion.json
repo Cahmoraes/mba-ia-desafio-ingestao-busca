@@ -250,7 +250,7 @@
         "kind": 2,
         "importPath": "src.search",
         "description": "src.search",
-        "peekOfCode": "def search_prompt(question) -> PromptTemplate | None:\n    if not question:\n        return\n    message = PromptTemplate(\n        input_variables=[\"context\", \"pergunta\"], template=PROMPT_TEMPLATE\n    )\n    # text = message.format(context=context, pergunta=question)\n    # print(text)\n    # return text\n    return message",
+        "peekOfCode": "def search_prompt(question) -> PromptTemplate | None:\n    if not question:\n        return\n    message = PromptTemplate(\n        input_variables=[\"context\", \"pergunta\"], template=PROMPT_TEMPLATE\n    )\n    return message",
         "detail": "src.search",
         "documentation": {}
     },

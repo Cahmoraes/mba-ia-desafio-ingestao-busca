@@ -49,7 +49,6 @@ def main():
     # Busca top-k documentos (pega só os Documents)
     search_results = store().similarity_search_with_score(question, k=10)
     documents = [d[0] for d in search_results]
-
     # Cria o PromptTemplate esperado pela chain (context + pergunta)
     chain = search_prompt(question)
     if not chain:

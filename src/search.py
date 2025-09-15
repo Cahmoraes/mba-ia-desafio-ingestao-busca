@@ -35,7 +35,4 @@ def search_prompt(question) -> PromptTemplate | None:
     message = PromptTemplate(
         input_variables=["context", "pergunta"], template=PROMPT_TEMPLATE
     )
-    # text = message.format(context=context, pergunta=question)
-    # print(text)
-    # return text
     return message
